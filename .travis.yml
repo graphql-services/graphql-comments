@@ -1,0 +1,8 @@
+language: generic
+
+services:
+  - docker
+
+script:
+  # - make test && make build tag push
+  - make build tag push

@@ -1,0 +1,11 @@
+type Comment @entity {
+  reference: String! @column
+  referenceID: ID! @column
+  text: String @column(type: "text")
+
+  createdByUser: User
+}
+
+extend type User @key(fields: "id") {
+  id: ID! @external
+}
