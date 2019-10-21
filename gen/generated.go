@@ -71,7 +71,7 @@ type ComplexityRoot struct {
 
 	Query struct {
 		Comment  func(childComplexity int, id *string, q *string, filter *CommentFilterType) int
-		Comments func(childComplexity int, offset *int, limit *int, q *string, sort []CommentSortType, filter *CommentFilterType) int
+		Comments func(childComplexity int, offset *int, limit *int, q *string, sort []*CommentSortType, filter *CommentFilterType) int
 		_service func(childComplexity int) int
 	}
 
@@ -100,7 +100,7 @@ type MutationResolver interface {
 type QueryResolver interface {
 	_service(ctx context.Context) (*_Service, error)
 	Comment(ctx context.Context, id *string, q *string, filter *CommentFilterType) (*Comment, error)
-	Comments(ctx context.Context, offset *int, limit *int, q *string, sort []CommentSortType, filter *CommentFilterType) (*CommentResultType, error)
+	Comments(ctx context.Context, offset *int, limit *int, q *string, sort []*CommentSortType, filter *CommentFilterType) (*CommentResultType, error)
 }
 
 type executableSchema struct {
@@ -260,7 +260,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.Comments(childComplexity, args["offset"].(*int), args["limit"].(*int), args["q"].(*string), args["sort"].([]CommentSortType), args["filter"].(*CommentFilterType)), true
+		return e.complexity.Query.Comments(childComplexity, args["offset"].(*int), args["limit"].(*int), args["q"].(*string), args["sort"].([]*CommentSortType), args["filter"].(*CommentFilterType)), true
 
 	case "Query._service":
 		if e.complexity.Query._service == nil {
@@ -369,6 +369,11 @@ type Mutation {
   deleteAllComments: Boolean!
 }
 
+enum ObjectSortType {
+  ASC
+  DESC
+}
+
 type Comment {
   id: ID!
   reference: String!
@@ -394,23 +399,15 @@ input CommentUpdateInput {
   text: String
 }
 
-enum CommentSortType {
-  ID_ASC
-  ID_DESC
-  REFERENCE_ASC
-  REFERENCE_DESC
-  REFERENCE_ID_ASC
-  REFERENCE_ID_DESC
-  TEXT_ASC
-  TEXT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_BY_ASC
-  UPDATED_BY_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
+input CommentSortType {
+  id: ObjectSortType
+  reference: ObjectSortType
+  referenceID: ObjectSortType
+  text: ObjectSortType
+  updatedAt: ObjectSortType
+  createdAt: ObjectSortType
+  updatedBy: ObjectSortType
+  createdBy: ObjectSortType
 }
 
 input CommentFilterType {
@@ -620,9 +617,9 @@ func (ec *executionContext) field_Query_comments_args(ctx context.Context, rawAr
 		}
 	}
 	args["q"] = arg2
-	var arg3 []CommentSortType
+	var arg3 []*CommentSortType
 	if tmp, ok := rawArgs["sort"]; ok {
-		arg3, err = ec.unmarshalOCommentSortType2ᚕgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx, tmp)
+		arg3, err = ec.unmarshalOCommentSortType2ᚕᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1340,7 +1337,7 @@ func (ec *executionContext) _Query_comments(ctx context.Context, field graphql.C
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Comments(rctx, args["offset"].(*int), args["limit"].(*int), args["q"].(*string), args["sort"].([]CommentSortType), args["filter"].(*CommentFilterType))
+		return ec.resolvers.Query().Comments(rctx, args["offset"].(*int), args["limit"].(*int), args["q"].(*string), args["sort"].([]*CommentSortType), args["filter"].(*CommentFilterType))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3048,6 +3045,66 @@ func (ec *executionContext) unmarshalInputCommentFilterType(ctx context.Context,
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputCommentSortType(ctx context.Context, obj interface{}) (CommentSortType, error) {
+	var it CommentSortType
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "id":
+			var err error
+			it.ID, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "reference":
+			var err error
+			it.Reference, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "referenceID":
+			var err error
+			it.ReferenceID, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "text":
+			var err error
+			it.Text, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedAt":
+			var err error
+			it.UpdatedAt, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdAt":
+			var err error
+			it.CreatedAt, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "updatedBy":
+			var err error
+			it.UpdatedBy, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "createdBy":
+			var err error
+			it.CreatedBy, err = ec.unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
@@ -3660,12 +3717,15 @@ func (ec *executionContext) unmarshalNCommentFilterType2ᚖgithubᚗcomᚋgraphq
 }
 
 func (ec *executionContext) unmarshalNCommentSortType2githubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx context.Context, v interface{}) (CommentSortType, error) {
-	var res CommentSortType
-	return res, res.UnmarshalGQL(v)
+	return ec.unmarshalInputCommentSortType(ctx, v)
 }
 
-func (ec *executionContext) marshalNCommentSortType2githubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx context.Context, sel ast.SelectionSet, v CommentSortType) graphql.Marshaler {
-	return v
+func (ec *executionContext) unmarshalNCommentSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx context.Context, v interface{}) (*CommentSortType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalNCommentSortType2githubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx, v)
+	return &res, err
 }
 
 func (ec *executionContext) unmarshalNCommentUpdateInput2map(ctx context.Context, v interface{}) (map[string]interface{}, error) {
@@ -4066,7 +4126,7 @@ func (ec *executionContext) marshalOCommentResultType2ᚖgithubᚗcomᚋgraphql�
 	return ec._CommentResultType(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalOCommentSortType2ᚕgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx context.Context, v interface{}) ([]CommentSortType, error) {
+func (ec *executionContext) unmarshalOCommentSortType2ᚕᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx context.Context, v interface{}) ([]*CommentSortType, error) {
 	var vSlice []interface{}
 	if v != nil {
 		if tmp1, ok := v.([]interface{}); ok {
@@ -4076,54 +4136,14 @@ func (ec *executionContext) unmarshalOCommentSortType2ᚕgithubᚗcomᚋgraphql�
 		}
 	}
 	var err error
-	res := make([]CommentSortType, len(vSlice))
+	res := make([]*CommentSortType, len(vSlice))
 	for i := range vSlice {
-		res[i], err = ec.unmarshalNCommentSortType2githubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx, vSlice[i])
+		res[i], err = ec.unmarshalNCommentSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx, vSlice[i])
 		if err != nil {
 			return nil, err
 		}
 	}
 	return res, nil
-}
-
-func (ec *executionContext) marshalOCommentSortType2ᚕgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx context.Context, sel ast.SelectionSet, v []CommentSortType) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		rctx := &graphql.ResolverContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithResolverContext(ctx, rctx)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNCommentSortType2githubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐCommentSortType(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-	return ret
 }
 
 func (ec *executionContext) unmarshalOID2string(ctx context.Context, v interface{}) (string, error) {
@@ -4202,6 +4222,30 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 		return graphql.Null
 	}
 	return ec.marshalOInt2int(ctx, sel, *v)
+}
+
+func (ec *executionContext) unmarshalOObjectSortType2githubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx context.Context, v interface{}) (ObjectSortType, error) {
+	var res ObjectSortType
+	return res, res.UnmarshalGQL(v)
+}
+
+func (ec *executionContext) marshalOObjectSortType2githubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx context.Context, sel ast.SelectionSet, v ObjectSortType) graphql.Marshaler {
+	return v
+}
+
+func (ec *executionContext) unmarshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx context.Context, v interface{}) (*ObjectSortType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalOObjectSortType2githubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx, v)
+	return &res, err
+}
+
+func (ec *executionContext) marshalOObjectSortType2ᚖgithubᚗcomᚋgraphqlᚑservicesᚋgraphqlᚑcommentsᚋgenᚐObjectSortType(ctx context.Context, sel ast.SelectionSet, v *ObjectSortType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
 }
 
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {

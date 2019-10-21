@@ -7,7 +7,6 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/mitchellh/mapstructure"
-	"github.com/novacloudcz/graphql-orm/resolvers"
 )
 
 type NotFoundError struct {
@@ -19,7 +18,7 @@ func (e *NotFoundError) Error() string {
 }
 
 type CommentResultType struct {
-	resolvers.EntityResultType
+	EntityResultType
 }
 
 type Comment struct {

@@ -76,6 +76,17 @@ type CommentFilterType struct {
 	CreatedByIn     []string             `json:"createdBy_in"`
 }
 
+type CommentSortType struct {
+	ID          *ObjectSortType `json:"id"`
+	Reference   *ObjectSortType `json:"reference"`
+	ReferenceID *ObjectSortType `json:"referenceID"`
+	Text        *ObjectSortType `json:"text"`
+	UpdatedAt   *ObjectSortType `json:"updatedAt"`
+	CreatedAt   *ObjectSortType `json:"createdAt"`
+	UpdatedBy   *ObjectSortType `json:"updatedBy"`
+	CreatedBy   *ObjectSortType `json:"createdBy"`
+}
+
 type User struct {
 	ID string `json:"id"`
 }
@@ -84,71 +95,43 @@ type _Service struct {
 	Sdl *string `json:"sdl"`
 }
 
-type CommentSortType string
+type ObjectSortType string
 
 const (
-	CommentSortTypeIDAsc           CommentSortType = "ID_ASC"
-	CommentSortTypeIDDesc          CommentSortType = "ID_DESC"
-	CommentSortTypeReferenceAsc    CommentSortType = "REFERENCE_ASC"
-	CommentSortTypeReferenceDesc   CommentSortType = "REFERENCE_DESC"
-	CommentSortTypeReferenceIDAsc  CommentSortType = "REFERENCE_ID_ASC"
-	CommentSortTypeReferenceIDDesc CommentSortType = "REFERENCE_ID_DESC"
-	CommentSortTypeTextAsc         CommentSortType = "TEXT_ASC"
-	CommentSortTypeTextDesc        CommentSortType = "TEXT_DESC"
-	CommentSortTypeUpdatedAtAsc    CommentSortType = "UPDATED_AT_ASC"
-	CommentSortTypeUpdatedAtDesc   CommentSortType = "UPDATED_AT_DESC"
-	CommentSortTypeCreatedAtAsc    CommentSortType = "CREATED_AT_ASC"
-	CommentSortTypeCreatedAtDesc   CommentSortType = "CREATED_AT_DESC"
-	CommentSortTypeUpdatedByAsc    CommentSortType = "UPDATED_BY_ASC"
-	CommentSortTypeUpdatedByDesc   CommentSortType = "UPDATED_BY_DESC"
-	CommentSortTypeCreatedByAsc    CommentSortType = "CREATED_BY_ASC"
-	CommentSortTypeCreatedByDesc   CommentSortType = "CREATED_BY_DESC"
+	ObjectSortTypeAsc  ObjectSortType = "ASC"
+	ObjectSortTypeDesc ObjectSortType = "DESC"
 )
 
-var AllCommentSortType = []CommentSortType{
-	CommentSortTypeIDAsc,
-	CommentSortTypeIDDesc,
-	CommentSortTypeReferenceAsc,
-	CommentSortTypeReferenceDesc,
-	CommentSortTypeReferenceIDAsc,
-	CommentSortTypeReferenceIDDesc,
-	CommentSortTypeTextAsc,
-	CommentSortTypeTextDesc,
-	CommentSortTypeUpdatedAtAsc,
-	CommentSortTypeUpdatedAtDesc,
-	CommentSortTypeCreatedAtAsc,
-	CommentSortTypeCreatedAtDesc,
-	CommentSortTypeUpdatedByAsc,
-	CommentSortTypeUpdatedByDesc,
-	CommentSortTypeCreatedByAsc,
-	CommentSortTypeCreatedByDesc,
+var AllObjectSortType = []ObjectSortType{
+	ObjectSortTypeAsc,
+	ObjectSortTypeDesc,
 }
 
-func (e CommentSortType) IsValid() bool {
+func (e ObjectSortType) IsValid() bool {
 	switch e {
-	case CommentSortTypeIDAsc, CommentSortTypeIDDesc, CommentSortTypeReferenceAsc, CommentSortTypeReferenceDesc, CommentSortTypeReferenceIDAsc, CommentSortTypeReferenceIDDesc, CommentSortTypeTextAsc, CommentSortTypeTextDesc, CommentSortTypeUpdatedAtAsc, CommentSortTypeUpdatedAtDesc, CommentSortTypeCreatedAtAsc, CommentSortTypeCreatedAtDesc, CommentSortTypeUpdatedByAsc, CommentSortTypeUpdatedByDesc, CommentSortTypeCreatedByAsc, CommentSortTypeCreatedByDesc:
+	case ObjectSortTypeAsc, ObjectSortTypeDesc:
 		return true
 	}
 	return false
 }
 
-func (e CommentSortType) String() string {
+func (e ObjectSortType) String() string {
 	return string(e)
 }
 
-func (e *CommentSortType) UnmarshalGQL(v interface{}) error {
+func (e *ObjectSortType) UnmarshalGQL(v interface{}) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
 	}
 
-	*e = CommentSortType(str)
+	*e = ObjectSortType(str)
 	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid CommentSortType", str)
+		return fmt.Errorf("%s is not a valid ObjectSortType", str)
 	}
 	return nil
 }
 
-func (e CommentSortType) MarshalGQL(w io.Writer) {
+func (e ObjectSortType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }

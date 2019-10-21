@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	"github.com/99designs/gqlgen/graphql"
-	"github.com/novacloudcz/graphql-orm/resolvers"
 	"github.com/vektah/gqlparser/ast"
 )
 
@@ -30,7 +29,7 @@ func QueryCommentHandler(ctx context.Context, r *GeneratedResolver, opts QueryCo
 	offset := 0
 	limit := 1
 	rt := &CommentResultType{
-		EntityResultType: resolvers.EntityResultType{
+		EntityResultType: EntityResultType{
 			Offset: &offset,
 			Limit:  &limit,
 			Query:  &query,
@@ -43,7 +42,11 @@ func QueryCommentHandler(ctx context.Context, r *GeneratedResolver, opts QueryCo
 	}
 
 	var items []*Comment
-	err := rt.GetItems(ctx, qb, TableName("comments"), &items)
+	giOpts := GetItemsOptions{
+		Alias:      TableName("comments"),
+		Preloaders: []string{},
+	}
+	err := rt.GetItems(ctx, qb, giOpts, &items)
 	if err != nil {
 		return nil, err
 	}
@@ -57,11 +60,11 @@ type QueryCommentsHandlerOptions struct {
 	Offset *int
 	Limit  *int
 	Q      *string
-	Sort   []CommentSortType
+	Sort   []*CommentSortType
 	Filter *CommentFilterType
 }
 
-func (r *GeneratedQueryResolver) Comments(ctx context.Context, offset *int, limit *int, q *string, sort []CommentSortType, filter *CommentFilterType) (*CommentResultType, error) {
+func (r *GeneratedQueryResolver) Comments(ctx context.Context, offset *int, limit *int, q *string, sort []*CommentSortType, filter *CommentFilterType) (*CommentResultType, error) {
 	opts := QueryCommentsHandlerOptions{
 		Offset: offset,
 		Limit:  limit,
@@ -72,10 +75,6 @@ func (r *GeneratedQueryResolver) Comments(ctx context.Context, offset *int, limi
 	return r.Handlers.QueryComments(ctx, r.GeneratedResolver, opts)
 }
 func QueryCommentsHandler(ctx context.Context, r *GeneratedResolver, opts QueryCommentsHandlerOptions) (*CommentResultType, error) {
-	_sort := []resolvers.EntitySort{}
-	for _, s := range opts.Sort {
-		_sort = append(_sort, s)
-	}
 	query := CommentQueryFilter{opts.Q}
 
 	var selectionSet *ast.SelectionSet
@@ -85,8 +84,13 @@ func QueryCommentsHandler(ctx context.Context, r *GeneratedResolver, opts QueryC
 		}
 	}
 
+	_sort := []EntitySort{}
+	for _, sort := range opts.Sort {
+		_sort = append(_sort, sort)
+	}
+
 	return &CommentResultType{
-		EntityResultType: resolvers.EntityResultType{
+		EntityResultType: EntityResultType{
 			Offset:       opts.Offset,
 			Limit:        opts.Limit,
 			Query:        &query,
@@ -100,7 +104,12 @@ func QueryCommentsHandler(ctx context.Context, r *GeneratedResolver, opts QueryC
 type GeneratedCommentResultTypeResolver struct{ *GeneratedResolver }
 
 func (r *GeneratedCommentResultTypeResolver) Items(ctx context.Context, obj *CommentResultType) (items []*Comment, err error) {
-	err = obj.GetItems(ctx, r.DB.db, TableName("comments"), &items)
+	giOpts := GetItemsOptions{
+		Alias:      TableName("comments"),
+		Preloaders: []string{},
+	}
+	err = obj.GetItems(ctx, r.DB.db, giOpts, &items)
+
 	return
 }
 

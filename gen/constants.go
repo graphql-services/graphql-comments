@@ -21,6 +21,11 @@ type Mutation {
   deleteAllComments: Boolean!
 }
 
+enum ObjectSortType {
+  ASC
+  DESC
+}
+
 type Comment {
   id: ID!
   reference: String!
@@ -50,23 +55,15 @@ input CommentUpdateInput {
   text: String
 }
 
-enum CommentSortType {
-  ID_ASC
-  ID_DESC
-  REFERENCE_ASC
-  REFERENCE_DESC
-  REFERENCE_ID_ASC
-  REFERENCE_ID_DESC
-  TEXT_ASC
-  TEXT_DESC
-  UPDATED_AT_ASC
-  UPDATED_AT_DESC
-  CREATED_AT_ASC
-  CREATED_AT_DESC
-  UPDATED_BY_ASC
-  UPDATED_BY_DESC
-  CREATED_BY_ASC
-  CREATED_BY_DESC
+input CommentSortType {
+  id: ObjectSortType
+  reference: ObjectSortType
+  referenceID: ObjectSortType
+  text: ObjectSortType
+  updatedAt: ObjectSortType
+  createdAt: ObjectSortType
+  updatedBy: ObjectSortType
+  createdBy: ObjectSortType
 }
 
 input CommentFilterType {
