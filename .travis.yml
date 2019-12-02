@@ -11,6 +11,7 @@ jobs:
     - stage: deploy
       script: make build tag push
     - stage: lambda
+      if: tag IS present
       script: make build-lambda-function
 
 deploy:
