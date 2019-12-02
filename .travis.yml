@@ -22,5 +22,5 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    repo: graphql-services/graphql-gateway
+    repo: $TRAVIS_REPO_SLUG
     condition: $TRAVIS_BUILD_STAGE_NAME = Lambda
