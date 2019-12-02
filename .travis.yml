@@ -8,7 +8,7 @@ jobs:
     - stage: deploy
       script: make build tag push
     - stage: lambda
-      script: make build-lambda
+      script: make build-lambda-function
 
 deploy:
   provider: releases
