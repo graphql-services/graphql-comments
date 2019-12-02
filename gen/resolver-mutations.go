@@ -35,21 +35,25 @@ func CreateCommentHandler(ctx context.Context, r *GeneratedResolver, input map[s
 
 	if _, ok := input["id"]; ok && (item.ID != changes.ID) {
 		item.ID = changes.ID
+		event.EntityID = item.ID
 		event.AddNewValue("id", changes.ID)
 	}
 
 	if _, ok := input["reference"]; ok && (item.Reference != changes.Reference) {
 		item.Reference = changes.Reference
+
 		event.AddNewValue("reference", changes.Reference)
 	}
 
 	if _, ok := input["referenceID"]; ok && (item.ReferenceID != changes.ReferenceID) {
 		item.ReferenceID = changes.ReferenceID
+
 		event.AddNewValue("referenceID", changes.ReferenceID)
 	}
 
 	if _, ok := input["text"]; ok && (item.Text != changes.Text) && (item.Text == nil || changes.Text == nil || *item.Text != *changes.Text) {
 		item.Text = changes.Text
+
 		event.AddNewValue("text", changes.Text)
 	}
 
@@ -66,6 +70,10 @@ func CreateCommentHandler(ctx context.Context, r *GeneratedResolver, input map[s
 	}
 
 	if len(event.Changes) > 0 {
+		err = r.Handlers.OnEvent(ctx, r, &event)
+		if err != nil {
+			return
+		}
 		err = r.EventController.SendEvent(ctx, &event)
 	}
 
@@ -132,6 +140,10 @@ func UpdateCommentHandler(ctx context.Context, r *GeneratedResolver, id string, 
 	}
 
 	if len(event.Changes) > 0 {
+		err = r.Handlers.OnEvent(ctx, r, &event)
+		if err != nil {
+			return
+		}
 		err = r.EventController.SendEvent(ctx, &event)
 		// data, _ := json.Marshal(event)
 		// fmt.Println("?",string(data))
@@ -172,6 +184,10 @@ func DeleteCommentHandler(ctx context.Context, r *GeneratedResolver, id string) 
 		return
 	}
 
+	err = r.Handlers.OnEvent(ctx, r, &event)
+	if err != nil {
+		return
+	}
 	err = r.EventController.SendEvent(ctx, &event)
 
 	return

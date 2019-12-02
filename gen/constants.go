@@ -76,6 +76,7 @@ input CommentFilterType {
   id_gte: ID
   id_lte: ID
   id_in: [ID!]
+  id_null: Boolean
   reference: String
   reference_ne: String
   reference_gt: String
@@ -86,6 +87,7 @@ input CommentFilterType {
   reference_like: String
   reference_prefix: String
   reference_suffix: String
+  reference_null: Boolean
   referenceID: ID
   referenceID_ne: ID
   referenceID_gt: ID
@@ -93,6 +95,7 @@ input CommentFilterType {
   referenceID_gte: ID
   referenceID_lte: ID
   referenceID_in: [ID!]
+  referenceID_null: Boolean
   text: String
   text_ne: String
   text_gt: String
@@ -103,6 +106,7 @@ input CommentFilterType {
   text_like: String
   text_prefix: String
   text_suffix: String
+  text_null: Boolean
   updatedAt: Time
   updatedAt_ne: Time
   updatedAt_gt: Time
@@ -110,6 +114,7 @@ input CommentFilterType {
   updatedAt_gte: Time
   updatedAt_lte: Time
   updatedAt_in: [Time!]
+  updatedAt_null: Boolean
   createdAt: Time
   createdAt_ne: Time
   createdAt_gt: Time
@@ -117,6 +122,7 @@ input CommentFilterType {
   createdAt_gte: Time
   createdAt_lte: Time
   createdAt_in: [Time!]
+  createdAt_null: Boolean
   updatedBy: ID
   updatedBy_ne: ID
   updatedBy_gt: ID
@@ -124,6 +130,7 @@ input CommentFilterType {
   updatedBy_gte: ID
   updatedBy_lte: ID
   updatedBy_in: [ID!]
+  updatedBy_null: Boolean
   createdBy: ID
   createdBy_ne: ID
   createdBy_gt: ID
@@ -131,6 +138,7 @@ input CommentFilterType {
   createdBy_gte: ID
   createdBy_lte: ID
   createdBy_in: [ID!]
+  createdBy_null: Boolean
 }
 
 type CommentResultType {

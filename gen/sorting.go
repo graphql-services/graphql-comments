@@ -13,35 +13,35 @@ func (s CommentSortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dialec
 	aliasPrefix := dialect.Quote(alias) + "."
 
 	if s.ID != nil {
-		*sorts = append(*sorts, aliasPrefix+"id "+s.ID.String())
+		*sorts = append(*sorts, aliasPrefix+dialect.Quote("id")+" "+s.ID.String())
 	}
 
 	if s.Reference != nil {
-		*sorts = append(*sorts, aliasPrefix+"reference "+s.Reference.String())
+		*sorts = append(*sorts, aliasPrefix+dialect.Quote("reference")+" "+s.Reference.String())
 	}
 
 	if s.ReferenceID != nil {
-		*sorts = append(*sorts, aliasPrefix+"referenceID "+s.ReferenceID.String())
+		*sorts = append(*sorts, aliasPrefix+dialect.Quote("referenceID")+" "+s.ReferenceID.String())
 	}
 
 	if s.Text != nil {
-		*sorts = append(*sorts, aliasPrefix+"text "+s.Text.String())
+		*sorts = append(*sorts, aliasPrefix+dialect.Quote("text")+" "+s.Text.String())
 	}
 
 	if s.UpdatedAt != nil {
-		*sorts = append(*sorts, aliasPrefix+"updatedAt "+s.UpdatedAt.String())
+		*sorts = append(*sorts, aliasPrefix+dialect.Quote("updatedAt")+" "+s.UpdatedAt.String())
 	}
 
 	if s.CreatedAt != nil {
-		*sorts = append(*sorts, aliasPrefix+"createdAt "+s.CreatedAt.String())
+		*sorts = append(*sorts, aliasPrefix+dialect.Quote("createdAt")+" "+s.CreatedAt.String())
 	}
 
 	if s.UpdatedBy != nil {
-		*sorts = append(*sorts, aliasPrefix+"updatedBy "+s.UpdatedBy.String())
+		*sorts = append(*sorts, aliasPrefix+dialect.Quote("updatedBy")+" "+s.UpdatedBy.String())
 	}
 
 	if s.CreatedBy != nil {
-		*sorts = append(*sorts, aliasPrefix+"createdBy "+s.CreatedBy.String())
+		*sorts = append(*sorts, aliasPrefix+dialect.Quote("createdBy")+" "+s.CreatedBy.String())
 	}
 
 	return nil

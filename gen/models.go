@@ -23,8 +23,8 @@ type CommentResultType struct {
 
 type Comment struct {
 	ID          string     `json:"id" gorm:"column:id;primary_key"`
-	Reference   string     `json:"reference" gorm:"column:reference"`
-	ReferenceID string     `json:"referenceID" gorm:"column:referenceID"`
+	Reference   string     `json:"reference" gorm:"column:reference;index:fetch"`
+	ReferenceID string     `json:"referenceID" gorm:"column:referenceID;index:fetch"`
 	Text        *string    `json:"text" gorm:"column:text;type:text"`
 	UpdatedAt   *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
 	CreatedAt   time.Time  `json:"createdAt" gorm:"column:createdAt"`

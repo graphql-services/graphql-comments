@@ -19,6 +19,7 @@ type CommentFilterType struct {
 	IDGte           *string              `json:"id_gte"`
 	IDLte           *string              `json:"id_lte"`
 	IDIn            []string             `json:"id_in"`
+	IDNull          *bool                `json:"id_null"`
 	Reference       *string              `json:"reference"`
 	ReferenceNe     *string              `json:"reference_ne"`
 	ReferenceGt     *string              `json:"reference_gt"`
@@ -29,6 +30,7 @@ type CommentFilterType struct {
 	ReferenceLike   *string              `json:"reference_like"`
 	ReferencePrefix *string              `json:"reference_prefix"`
 	ReferenceSuffix *string              `json:"reference_suffix"`
+	ReferenceNull   *bool                `json:"reference_null"`
 	ReferenceID     *string              `json:"referenceID"`
 	ReferenceIDNe   *string              `json:"referenceID_ne"`
 	ReferenceIDGt   *string              `json:"referenceID_gt"`
@@ -36,6 +38,7 @@ type CommentFilterType struct {
 	ReferenceIDGte  *string              `json:"referenceID_gte"`
 	ReferenceIDLte  *string              `json:"referenceID_lte"`
 	ReferenceIDIn   []string             `json:"referenceID_in"`
+	ReferenceIDNull *bool                `json:"referenceID_null"`
 	Text            *string              `json:"text"`
 	TextNe          *string              `json:"text_ne"`
 	TextGt          *string              `json:"text_gt"`
@@ -46,6 +49,7 @@ type CommentFilterType struct {
 	TextLike        *string              `json:"text_like"`
 	TextPrefix      *string              `json:"text_prefix"`
 	TextSuffix      *string              `json:"text_suffix"`
+	TextNull        *bool                `json:"text_null"`
 	UpdatedAt       *time.Time           `json:"updatedAt"`
 	UpdatedAtNe     *time.Time           `json:"updatedAt_ne"`
 	UpdatedAtGt     *time.Time           `json:"updatedAt_gt"`
@@ -53,6 +57,7 @@ type CommentFilterType struct {
 	UpdatedAtGte    *time.Time           `json:"updatedAt_gte"`
 	UpdatedAtLte    *time.Time           `json:"updatedAt_lte"`
 	UpdatedAtIn     []*time.Time         `json:"updatedAt_in"`
+	UpdatedAtNull   *bool                `json:"updatedAt_null"`
 	CreatedAt       *time.Time           `json:"createdAt"`
 	CreatedAtNe     *time.Time           `json:"createdAt_ne"`
 	CreatedAtGt     *time.Time           `json:"createdAt_gt"`
@@ -60,6 +65,7 @@ type CommentFilterType struct {
 	CreatedAtGte    *time.Time           `json:"createdAt_gte"`
 	CreatedAtLte    *time.Time           `json:"createdAt_lte"`
 	CreatedAtIn     []*time.Time         `json:"createdAt_in"`
+	CreatedAtNull   *bool                `json:"createdAt_null"`
 	UpdatedBy       *string              `json:"updatedBy"`
 	UpdatedByNe     *string              `json:"updatedBy_ne"`
 	UpdatedByGt     *string              `json:"updatedBy_gt"`
@@ -67,6 +73,7 @@ type CommentFilterType struct {
 	UpdatedByGte    *string              `json:"updatedBy_gte"`
 	UpdatedByLte    *string              `json:"updatedBy_lte"`
 	UpdatedByIn     []string             `json:"updatedBy_in"`
+	UpdatedByNull   *bool                `json:"updatedBy_null"`
 	CreatedBy       *string              `json:"createdBy"`
 	CreatedByNe     *string              `json:"createdBy_ne"`
 	CreatedByGt     *string              `json:"createdBy_gt"`
@@ -74,6 +81,7 @@ type CommentFilterType struct {
 	CreatedByGte    *string              `json:"createdBy_gte"`
 	CreatedByLte    *string              `json:"createdBy_lte"`
 	CreatedByIn     []string             `json:"createdBy_in"`
+	CreatedByNull   *bool                `json:"createdBy_null"`
 }
 
 type CommentSortType struct {
