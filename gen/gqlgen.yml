@@ -30,6 +30,40 @@ models:
   CommentUpdateInput:
     model: "map[string]interface{}"
   
+  Company:
+    model: github.com/graphql-services/graphql-comments/gen.Company
+    fields:
+      employees:
+        resolver: true
+  CompanyResultType:
+    model: github.com/graphql-services/graphql-comments/gen.CompanyResultType
+    fields:
+      count:
+        resolver: true
+      items:
+        resolver: true
+  CompanyCreateInput:
+    model: "map[string]interface{}"
+  CompanyUpdateInput:
+    model: "map[string]interface{}"
+  
+  Person:
+    model: github.com/graphql-services/graphql-comments/gen.Person
+    fields:
+      companies:
+        resolver: true
+  PersonResultType:
+    model: github.com/graphql-services/graphql-comments/gen.PersonResultType
+    fields:
+      count:
+        resolver: true
+      items:
+        resolver: true
+  PersonCreateInput:
+    model: "map[string]interface{}"
+  PersonUpdateInput:
+    model: "map[string]interface{}"
+  
   
   
   User:

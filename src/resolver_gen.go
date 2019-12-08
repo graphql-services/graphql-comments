@@ -1,6 +1,8 @@
 package src
 
 import (
+	"context"
+
 	"github.com/graphql-services/graphql-comments/gen"
 	"github.com/novacloudcz/graphql-orm/events"
 )
@@ -16,6 +18,17 @@ type Resolver struct {
 
 type MutationResolver struct {
 	*gen.GeneratedMutationResolver
+}
+
+func (r *MutationResolver) BeginTransaction(ctx context.Context, fn func(context.Context) error) error {
+	ctx = gen.EnrichContextWithMutations(ctx, r.GeneratedResolver)
+	err := fn(ctx)
+	if err != nil {
+		tx := gen.GetTransaction(ctx)
+		tx.Rollback()
+		return err
+	}
+	return gen.FinishMutationContext(ctx, r.GeneratedResolver)
 }
 
 type QueryResolver struct {
@@ -43,6 +56,38 @@ type CommentResolver struct {
 
 func (r *Resolver) Comment() gen.CommentResolver {
 	return &CommentResolver{&gen.GeneratedCommentResolver{r.GeneratedResolver}}
+}
+
+type CompanyResultTypeResolver struct {
+	*gen.GeneratedCompanyResultTypeResolver
+}
+
+func (r *Resolver) CompanyResultType() gen.CompanyResultTypeResolver {
+	return &CompanyResultTypeResolver{&gen.GeneratedCompanyResultTypeResolver{r.GeneratedResolver}}
+}
+
+type CompanyResolver struct {
+	*gen.GeneratedCompanyResolver
+}
+
+func (r *Resolver) Company() gen.CompanyResolver {
+	return &CompanyResolver{&gen.GeneratedCompanyResolver{r.GeneratedResolver}}
+}
+
+type PersonResultTypeResolver struct {
+	*gen.GeneratedPersonResultTypeResolver
+}
+
+func (r *Resolver) PersonResultType() gen.PersonResultTypeResolver {
+	return &PersonResultTypeResolver{&gen.GeneratedPersonResultTypeResolver{r.GeneratedResolver}}
+}
+
+type PersonResolver struct {
+	*gen.GeneratedPersonResolver
+}
+
+func (r *Resolver) Person() gen.PersonResolver {
+	return &PersonResolver{&gen.GeneratedPersonResolver{r.GeneratedResolver}}
 }
 
 type UserResolver struct {

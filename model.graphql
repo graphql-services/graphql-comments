@@ -9,3 +9,12 @@ type Comment @entity {
 extend type User @key(fields: "id") {
   id: ID! @external
 }
+
+type Company @entity {
+  name: String @column
+  employees: [Person!]! @relationship(inverse: companies)
+}
+type Person @entity {
+  name: String @column
+  companies: [Company!]! @relationship(inverse: employees)
+}

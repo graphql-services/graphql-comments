@@ -108,6 +108,8 @@ func (db *DB) Query() *gorm.DB {
 func (db *DB) AutoMigrate() *gorm.DB {
 	return db.db.AutoMigrate(
 		Comment{},
+		Company{},
+		Person{},
 	)
 }
 
