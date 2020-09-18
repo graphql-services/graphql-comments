@@ -10,7 +10,7 @@ import (
 func New(db *gen.DB, ec *events.EventController) *Resolver {
 	resolver := NewResolver(db, ec)
 
-	resolver.Handlers.CommentCreatedByUser = func(ctx context.Context, r *gen.GeneratedCommentResolver, obj *gen.Comment) (res *gen.User, err error) {
+	resolver.Handlers.CommentCreatedByUser = func(ctx context.Context, r *gen.GeneratedResolver, obj *gen.Comment) (res *gen.User, err error) {
 		if obj.CreatedBy != nil {
 			res = &gen.User{ID: *obj.CreatedBy}
 		}

@@ -6,126 +6,130 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
-func (s CommentSortType) Apply(ctx context.Context, dialect gorm.Dialect, sorts *[]string, joins *[]string) error {
+func (s CommentSortType) Apply(ctx context.Context, dialect gorm.Dialect, sorts *[]SortInfo, joins *[]string) error {
 	return s.ApplyWithAlias(ctx, dialect, TableName("comments"), sorts, joins)
 }
-func (s CommentSortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dialect, alias string, sorts *[]string, joins *[]string) error {
+func (s CommentSortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dialect, alias string, sorts *[]SortInfo, joins *[]string) error {
 	aliasPrefix := dialect.Quote(alias) + "."
 
 	if s.ID != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("id")+" "+s.ID.String())
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("id"), Direction: s.ID.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.IDMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("id") + ")", Direction: s.IDMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.IDMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("id") + ")", Direction: s.IDMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
 	if s.Reference != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("reference")+" "+s.Reference.String())
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("reference"), Direction: s.Reference.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.ReferenceMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("reference") + ")", Direction: s.ReferenceMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.ReferenceMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("reference") + ")", Direction: s.ReferenceMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
 	if s.ReferenceID != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("referenceID")+" "+s.ReferenceID.String())
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("referenceID"), Direction: s.ReferenceID.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.ReferenceIDMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("referenceID") + ")", Direction: s.ReferenceIDMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.ReferenceIDMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("referenceID") + ")", Direction: s.ReferenceIDMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
 	if s.Text != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("text")+" "+s.Text.String())
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("text"), Direction: s.Text.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.TextMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("text") + ")", Direction: s.TextMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.TextMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("text") + ")", Direction: s.TextMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
 	if s.UpdatedAt != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("updatedAt")+" "+s.UpdatedAt.String())
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("updatedAt"), Direction: s.UpdatedAt.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.UpdatedAtMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("updatedAt") + ")", Direction: s.UpdatedAtMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.UpdatedAtMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("updatedAt") + ")", Direction: s.UpdatedAtMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
 	if s.CreatedAt != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("createdAt")+" "+s.CreatedAt.String())
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("createdAt"), Direction: s.CreatedAt.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.CreatedAtMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("createdAt") + ")", Direction: s.CreatedAtMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.CreatedAtMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("createdAt") + ")", Direction: s.CreatedAtMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
 	if s.UpdatedBy != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("updatedBy")+" "+s.UpdatedBy.String())
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("updatedBy"), Direction: s.UpdatedBy.String()}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.UpdatedByMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("updatedBy") + ")", Direction: s.UpdatedByMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
+	}
+
+	if s.UpdatedByMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("updatedBy") + ")", Direction: s.UpdatedByMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
 	if s.CreatedBy != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("createdBy")+" "+s.CreatedBy.String())
+		sort := SortInfo{Field: aliasPrefix + dialect.Quote("createdBy"), Direction: s.CreatedBy.String()}
+		*sorts = append(*sorts, sort)
 	}
 
-	return nil
-}
-
-func (s CompanySortType) Apply(ctx context.Context, dialect gorm.Dialect, sorts *[]string, joins *[]string) error {
-	return s.ApplyWithAlias(ctx, dialect, TableName("companies"), sorts, joins)
-}
-func (s CompanySortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dialect, alias string, sorts *[]string, joins *[]string) error {
-	aliasPrefix := dialect.Quote(alias) + "."
-
-	if s.ID != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("id")+" "+s.ID.String())
+	if s.CreatedByMin != nil {
+		sort := SortInfo{Field: "Min(" + aliasPrefix + dialect.Quote("createdBy") + ")", Direction: s.CreatedByMin.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
-	if s.Name != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("name")+" "+s.Name.String())
-	}
-
-	if s.UpdatedAt != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("updatedAt")+" "+s.UpdatedAt.String())
-	}
-
-	if s.CreatedAt != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("createdAt")+" "+s.CreatedAt.String())
-	}
-
-	if s.UpdatedBy != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("updatedBy")+" "+s.UpdatedBy.String())
-	}
-
-	if s.CreatedBy != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("createdBy")+" "+s.CreatedBy.String())
-	}
-
-	if s.Employees != nil {
-		_alias := alias + "_employees"
-		*joins = append(*joins, "LEFT JOIN "+dialect.Quote(TableName("company_employees"))+" "+dialect.Quote(_alias+"_jointable")+" ON "+dialect.Quote(alias)+".id = "+dialect.Quote(_alias+"_jointable")+"."+dialect.Quote("company_id")+" LEFT JOIN "+dialect.Quote(TableName("people"))+" "+dialect.Quote(_alias)+" ON "+dialect.Quote(_alias+"_jointable")+"."+dialect.Quote("employee_id")+" = "+dialect.Quote(_alias)+".id")
-		err := s.Employees.ApplyWithAlias(ctx, dialect, _alias, sorts, joins)
-		if err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func (s PersonSortType) Apply(ctx context.Context, dialect gorm.Dialect, sorts *[]string, joins *[]string) error {
-	return s.ApplyWithAlias(ctx, dialect, TableName("people"), sorts, joins)
-}
-func (s PersonSortType) ApplyWithAlias(ctx context.Context, dialect gorm.Dialect, alias string, sorts *[]string, joins *[]string) error {
-	aliasPrefix := dialect.Quote(alias) + "."
-
-	if s.ID != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("id")+" "+s.ID.String())
-	}
-
-	if s.Name != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("name")+" "+s.Name.String())
-	}
-
-	if s.UpdatedAt != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("updatedAt")+" "+s.UpdatedAt.String())
-	}
-
-	if s.CreatedAt != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("createdAt")+" "+s.CreatedAt.String())
-	}
-
-	if s.UpdatedBy != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("updatedBy")+" "+s.UpdatedBy.String())
-	}
-
-	if s.CreatedBy != nil {
-		*sorts = append(*sorts, aliasPrefix+dialect.Quote("createdBy")+" "+s.CreatedBy.String())
-	}
-
-	if s.Companies != nil {
-		_alias := alias + "_companies"
-		*joins = append(*joins, "LEFT JOIN "+dialect.Quote(TableName("company_employees"))+" "+dialect.Quote(_alias+"_jointable")+" ON "+dialect.Quote(alias)+".id = "+dialect.Quote(_alias+"_jointable")+"."+dialect.Quote("employee_id")+" LEFT JOIN "+dialect.Quote(TableName("companies"))+" "+dialect.Quote(_alias)+" ON "+dialect.Quote(_alias+"_jointable")+"."+dialect.Quote("company_id")+" = "+dialect.Quote(_alias)+".id")
-		err := s.Companies.ApplyWithAlias(ctx, dialect, _alias, sorts, joins)
-		if err != nil {
-			return err
-		}
+	if s.CreatedByMax != nil {
+		sort := SortInfo{Field: "Max(" + aliasPrefix + dialect.Quote("createdBy") + ")", Direction: s.CreatedByMax.String(), IsAggregation: true}
+		*sorts = append(*sorts, sort)
 	}
 
 	return nil

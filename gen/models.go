@@ -9,14 +9,6 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-type NotFoundError struct {
-	Entity string
-}
-
-func (e *NotFoundError) Error() string {
-	return fmt.Sprintf("%s not found", e.Entity)
-}
-
 type CommentResultType struct {
 	EntityResultType
 }
@@ -43,62 +35,6 @@ type CommentChanges struct {
 	CreatedAt   time.Time
 	UpdatedBy   *string
 	CreatedBy   *string
-}
-
-type CompanyResultType struct {
-	EntityResultType
-}
-
-type Company struct {
-	ID        string     `json:"id" gorm:"column:id;primary_key"`
-	Name      *string    `json:"name" gorm:"column:name"`
-	UpdatedAt *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
-	CreatedAt time.Time  `json:"createdAt" gorm:"column:createdAt"`
-	UpdatedBy *string    `json:"updatedBy" gorm:"column:updatedBy"`
-	CreatedBy *string    `json:"createdBy" gorm:"column:createdBy"`
-
-	Employees []*Person `json:"employees" gorm:"many2many:company_employees;jointable_foreignkey:company_id;association_jointable_foreignkey:employee_id"`
-}
-
-func (m *Company) Is_Entity() {}
-
-type CompanyChanges struct {
-	ID        string
-	Name      *string
-	UpdatedAt *time.Time
-	CreatedAt time.Time
-	UpdatedBy *string
-	CreatedBy *string
-
-	EmployeesIDs []*string
-}
-
-type PersonResultType struct {
-	EntityResultType
-}
-
-type Person struct {
-	ID        string     `json:"id" gorm:"column:id;primary_key"`
-	Name      *string    `json:"name" gorm:"column:name"`
-	UpdatedAt *time.Time `json:"updatedAt" gorm:"column:updatedAt"`
-	CreatedAt time.Time  `json:"createdAt" gorm:"column:createdAt"`
-	UpdatedBy *string    `json:"updatedBy" gorm:"column:updatedBy"`
-	CreatedBy *string    `json:"createdBy" gorm:"column:createdBy"`
-
-	Companies []*Company `json:"companies" gorm:"many2many:company_employees;jointable_foreignkey:employee_id;association_jointable_foreignkey:company_id"`
-}
-
-func (m *Person) Is_Entity() {}
-
-type PersonChanges struct {
-	ID        string
-	Name      *string
-	UpdatedAt *time.Time
-	CreatedAt time.Time
-	UpdatedBy *string
-	CreatedBy *string
-
-	CompaniesIDs []*string
 }
 
 // used to convert map[string]interface{} to EntityChanges struct

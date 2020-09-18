@@ -12,6 +12,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"gopkg.in/gormigrate.v1"
 )
 
 // DB ...
@@ -104,13 +105,16 @@ func (db *DB) Query() *gorm.DB {
 	return db.db
 }
 
-// AutoMigrate ...
-func (db *DB) AutoMigrate() *gorm.DB {
-	return db.db.AutoMigrate(
-		Comment{},
-		Company{},
-		Person{},
-	)
+// AutoMigrate run basic gorm automigration
+func (db *DB) AutoMigrate() error {
+	return AutoMigrate(db.db)
+}
+
+// Migrate run migrations using automigrate
+func (db *DB) Migrate(migrations []*gormigrate.Migration) error {
+	options := gormigrate.DefaultOptions
+	options.TableName = TableName("migrations")
+	return Migrate(db.db, options, migrations)
 }
 
 // Close ...
